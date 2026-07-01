@@ -1,0 +1,208 @@
+'use client';
+import type { Metadata } from 'next';
+import { useState } from 'react';
+
+// TODO: Add form handling — connect to Formspree, Resend, or a Next.js API route
+// to actually send submissions to studiorosevale@gmail.com
+
+const projectTypes = [
+  'Commercial Mural',
+  'Café / Restaurant Mural',
+  'Residential Mural',
+  'Fine Art Commission',
+  'Community / Public Mural',
+  'Art Consulting',
+  'Other / Not Sure Yet',
+];
+
+const budgetRanges = [
+  'Under $1,000',
+  '$1,000 – $2,500',
+  '$2,500 – $5,000',
+  '$5,000 – $10,000',
+  '$10,000 – $20,000',
+  '$20,000+',
+  'Not sure yet',
+];
+
+export default function Contact() {
+  const [submitted, setSubmitted] = useState(false);
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    // TODO: Replace this with actual form submission logic
+    // Options: Formspree (https://formspree.io), Resend API, or /api/contact route
+    console.log('Form submitted — add backend handling here');
+    setSubmitted(true);
+  }
+
+  return (
+    <>
+      {/* Hero */}
+      <section className="pt-32 pb-16 bg-ivory border-b border-taupe">
+        <div className="container-max grid md:grid-cols-2 gap-12 items-end">
+          <div>
+            <p className="label text-umber mb-4">Get in Touch</p>
+            <h1 className="font-serif text-display-sm text-brown-deep mb-6">
+              Start a conversation.
+            </h1>
+            <p className="text-brown-mid font-light leading-relaxed text-lg">
+              Every project starts here. Fill out the form and I'll be in touch within 1–2 business days to set up a discovery call.
+            </p>
+          </div>
+          <div className="space-y-6">
+            {[
+              { label: 'Email', value: 'studiorosevale@gmail.com', href: 'mailto:studiorosevale@gmail.com' },
+              { label: 'Phone', value: '587-989-3073', href: 'tel:5879893073' },
+              { label: 'Location', value: 'Edmonton, Alberta', href: null },
+              { label: 'Response Time', value: '1–2 business days', href: null },
+            ].map(({ label, value, href }) => (
+              <div key={label} className="flex gap-6 items-baseline">
+                <span className="label text-umber w-32 shrink-0">{label}</span>
+                {href
+                  ? <a href={href} className="text-brown-mid font-light hover:text-brown-deep transition-colors">{value}</a>
+                  : <span className="text-brown-mid font-light">{value}</span>
+                }
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Form */}
+      <section className="section-pad bg-ivory">
+        <div className="container-max max-w-3xl">
+          {submitted ? (
+            <div className="text-center py-20">
+              <div className="w-16 h-16 rounded-full bg-taupe flex items-center justify-center mx-auto mb-6">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" className="text-rose-dust">
+                  <path d="M5 14l6 6L23 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <h2 className="font-serif text-3xl text-brown-deep mb-3">Message received.</h2>
+              <p className="text-brown-mid font-light leading-relaxed max-w-md mx-auto">
+                Thank you for reaching out. I'll review your inquiry and be in touch within 1–2 business days to discuss your project.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-8">
+              {/* Basic info */}
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="label text-umber block mb-2" htmlFor="name">Your Name *</label>
+                  <input
+                    type="text"
+                    id="name"
+                    required
+                    className="w-full border border-taupe bg-ivory px-4 py-3 text-brown-deep font-light focus:outline-none focus:border-umber transition-colors placeholder:text-brown-light/50"
+                    placeholder="Full name"
+                  />
+                </div>
+                <div>
+                  <label className="label text-umber block mb-2" htmlFor="email">Email Address *</label>
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    className="w-full border border-taupe bg-ivory px-4 py-3 text-brown-deep font-light focus:outline-none focus:border-umber transition-colors placeholder:text-brown-light/50"
+                    placeholder="you@example.com"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="label text-umber block mb-2" htmlFor="business">Business or Organization</label>
+                <input
+                  type="text"
+                  id="business"
+                  className="w-full border border-taupe bg-ivory px-4 py-3 text-brown-deep font-light focus:outline-none focus:border-umber transition-colors placeholder:text-brown-light/50"
+                  placeholder="Company name (leave blank for residential)"
+                />
+              </div>
+
+              {/* Project details */}
+              <div className="border-t border-taupe pt-8">
+                <p className="label text-umber mb-6">Project Details</p>
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="label text-umber block mb-2" htmlFor="project-type">Project Type *</label>
+                    <select
+                      id="project-type"
+                      required
+                      className="w-full border border-taupe bg-ivory px-4 py-3 text-brown-deep font-light focus:outline-none focus:border-umber transition-colors appearance-none cursor-pointer"
+                    >
+                      <option value="">Select a project type</option>
+                      {projectTypes.map(t => <option key={t} value={t}>{t}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="label text-umber block mb-2" htmlFor="location">Project Location *</label>
+                    <input
+                      type="text"
+                      id="location"
+                      required
+                      className="w-full border border-taupe bg-ivory px-4 py-3 text-brown-deep font-light focus:outline-none focus:border-umber transition-colors placeholder:text-brown-light/50"
+                      placeholder="City, neighbourhood, or address"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="label text-umber block mb-2" htmlFor="wall-size">Approximate Wall Size</label>
+                  <input
+                    type="text"
+                    id="wall-size"
+                    className="w-full border border-taupe bg-ivory px-4 py-3 text-brown-deep font-light focus:outline-none focus:border-umber transition-colors placeholder:text-brown-light/50"
+                    placeholder="e.g. 10 × 12 ft, or not sure yet"
+                  />
+                </div>
+                <div>
+                  <label className="label text-umber block mb-2" htmlFor="timeline">Desired Timeline</label>
+                  <input
+                    type="text"
+                    id="timeline"
+                    className="w-full border border-taupe bg-ivory px-4 py-3 text-brown-deep font-light focus:outline-none focus:border-umber transition-colors placeholder:text-brown-light/50"
+                    placeholder="e.g. August 2026, ASAP, flexible"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="label text-umber block mb-2" htmlFor="budget">Budget Range</label>
+                <select
+                  id="budget"
+                  className="w-full border border-taupe bg-ivory px-4 py-3 text-brown-deep font-light focus:outline-none focus:border-umber transition-colors appearance-none cursor-pointer"
+                >
+                  <option value="">Prefer not to say / not sure yet</option>
+                  {budgetRanges.map(r => <option key={r} value={r}>{r}</option>)}
+                </select>
+              </div>
+
+              <div>
+                <label className="label text-umber block mb-2" htmlFor="description">Tell Me About Your Project *</label>
+                <textarea
+                  id="description"
+                  required
+                  rows={6}
+                  className="w-full border border-taupe bg-ivory px-4 py-3 text-brown-deep font-light focus:outline-none focus:border-umber transition-colors resize-none placeholder:text-brown-light/50"
+                  placeholder="Share your vision, any reference images you love, your space, your audience, and anything else that feels relevant. Even a rough idea is a great start."
+                />
+              </div>
+
+              <div className="pt-2">
+                <button type="submit" className="btn-primary w-full sm:w-auto justify-center">
+                  Send Inquiry
+                </button>
+                <p className="text-xs text-brown-light font-light mt-4">
+                  I typically respond within 1–2 business days. For urgent enquiries, call 587-989-3073.
+                </p>
+              </div>
+            </form>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
